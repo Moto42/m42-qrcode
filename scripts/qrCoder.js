@@ -22,8 +22,7 @@ function makenewcode(event){
     const moduleSize = 5;
 
     $('.qrCoder__outputs').children().remove()
-    $('.qrCoder__outputs')[0].innerHTML = code.createImgTag(moduleSize);
-
+    
     const svg = d3.select('.qrCoder__outputs').append("svg")
         .attr('height',moduleCount*moduleSize)
         .attr('width',moduleCount*moduleSize);
