@@ -16,6 +16,10 @@ function qrcodeToMatrix(code) {
 function color_two(isDark=false,dark='hsl(0,0%,0%)', light='hsl(0,0%,100%)'){
     return (isDark ? dark : light);
 }
+function color_picker(x,y,matrix,isDark) {
+    const color = isDark ? $('.qrCoder__color_dark').val() : $('.qrCoder__color_light').val();
+    return color;
+}
 
 function symbol_rect(x,y,matrix,isDark){
     const r = d3.create('svg:rect')
@@ -41,7 +45,7 @@ function fillWithSameSymbol(moduleSize,svg,matrix,symbolfunction,colorFunction){
     }
 }
 
-function makeCode(text, moduleSize=5, moduleType='default'){
+function makeCode(text, moduleSize=5, moduleType='picker'){
     const code = qrcode(0,'H')
     code.addData(text);
     code.make();
@@ -54,7 +58,8 @@ function makeCode(text, moduleSize=5, moduleType='default'){
     
     const codeMatrix = qrcodeToMatrix(code);
     switch (moduleType) {
-        case 'dummycase':
+        case 'picker':
+            fillWithSameSymbol(moduleSize,svg,codeMatrix,symbol_rect,color_picker);
             break;
         default:
             fillWithSameSymbol(moduleSize,svg,codeMatrix,symbol_rect,(x,y,matrix,isDark)=>color_two(isDark));
