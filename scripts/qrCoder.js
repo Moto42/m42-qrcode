@@ -85,3 +85,11 @@ $('.qrCoder__color_light')[0].addEventListener('change',lightColorPickerHandler)
 $('.qrCoder__color_light')[0].addEventListener('input',lightColorPickerHandler);
 $('.qrCoder__color_dark')[0].addEventListener('change',darkColorPickerHandler);
 $('.qrCoder__color_dark')[0].addEventListener('input',darkColorPickerHandler);
+
+//First placeholder code;
+(()=>{
+    const params = new URLSearchParams(window.location.search);
+    const text = params.get('codeText') ? params.get('codeText') : "https://youtu.be/oHg5SJYRHA0?autoplay=1";
+    const code = makeCode(text);
+    $('.qrCoder__outputs').append(code);
+})();
