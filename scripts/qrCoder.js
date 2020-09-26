@@ -68,5 +68,15 @@ function generateCodeHandler(event){
     $('.qrCoder__outputs').children().remove() 
     $('.qrCoder__outputs').append(code);
 }
+function lightColorPickerHandler(event){
+    $('.qr_code__module--light').attr('fill',event.target.value);
+}
+function darkColorPickerHandler(event){
+    $('.qr_code__module--dark').attr('fill',event.target.value);
+}
 
 $('.qrCoder__submit')[0].addEventListener('click',generateCodeHandler);
+$('.qrCoder__color_light')[0].addEventListener('change',lightColorPickerHandler);
+$('.qrCoder__color_light')[0].addEventListener('input',lightColorPickerHandler);
+$('.qrCoder__color_dark')[0].addEventListener('change',darkColorPickerHandler);
+$('.qrCoder__color_dark')[0].addEventListener('input',darkColorPickerHandler);
