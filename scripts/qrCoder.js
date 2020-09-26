@@ -21,6 +21,8 @@ function symbol_rect(x,y,matrix,isDark){
     const r = d3.create('svg:rect')
         .attr('height', '100%')
         .attr('width', '100%');
+    r.node().classList.add('qr_code__module');
+    r.node().classList.add((isDark?'qr_code__module--dark':'qr_code__module--light'));
     return r;
 }
 
@@ -48,6 +50,7 @@ function makeCode(text, moduleSize=5, moduleType='default'){
     const svg = d3.create("svg:svg")
     .attr('height',moduleCount*moduleSize)
     .attr('width',moduleCount*moduleSize);
+    svg.node().classList.add('qr_code');
     
     const codeMatrix = qrcodeToMatrix(code);
     switch (moduleType) {
@@ -60,10 +63,10 @@ function makeCode(text, moduleSize=5, moduleType='default'){
     return svg.node();
 }
 
-function generatCodeHandler(event){
+function generateCodeHandler(event){
     const code = makeCode($('.qrCoder__text').val());
     $('.qrCoder__outputs').children().remove() 
     $('.qrCoder__outputs').append(code);
 }
 
-$('.qrCoder__submit')[0].addEventListener('click',generatCodeHandler);
+$('.qrCoder__submit')[0].addEventListener('click',generateCodeHandler);
