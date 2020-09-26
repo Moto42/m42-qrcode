@@ -13,44 +13,57 @@ function qrcodeToMatrix(code) {
     return output;
 }
 
-function getRect(x,y,height,width,isdark=false,hue=160){
-    color = `hsl(${hue},${Math.random()*60+40}%,${Math.random()*30}%)`;
-    const rect = d3.create('svg:rect')
-        .attr('x',x)
-        .attr('y',y)
-        .attr('height',height)
-        .attr('width', width);
-    if(isdark) rect.attr('fill', color);
-    else rect.attr('fill', 'white');
-    return rect;
+function color_two(isDark=false,dark='hsl(0,0%,0%)', light='hsl(0,0%,100%)'){
+    return (isDark ? dark : light);
 }
 
-function makenewcode(event){
-    const text = $('.qrCoder__text')[0].value;
-    const code = qrcode(0,'H')
-    code.addData(text);
-    code.make();
-    const moduleCount = code.getModuleCount();
-    const moduleSize = 5;
+function symbol_rect(x,y,matrix,isDark){
+    const r = d3.create('svg:rect')
+        .attr('height', '100%')
+        .attr('width', '100%');
+    return r;
+}
 
-    $('.qrCoder__outputs').children().remove()
-
-    const svg = d3.select('.qrCoder__outputs').append("svg")
-        .attr('height',moduleCount*moduleSize)
-        .attr('width',moduleCount*moduleSize);
-    
-    const codeMatrix = qrcodeToMatrix(code);
-    const hue = Math.random()*360;
-    for(let rowNum in codeMatrix){
-        const row = codeMatrix[rowNum];
-        for(let moduleNum in row){
-            const rect = getRect(moduleSize*moduleNum, moduleSize*rowNum,moduleSize, moduleSize, codeMatrix[rowNum][moduleNum],hue);
-            svg.append(()=>rect.node());
+function fillWithSameSymbol(moduleSize,svg,matrix,symbolfunction,colorFunction){
+    for(let y in matrix){
+        for(let x in matrix){
+            const symbol = symbolfunction(x,y,matrix,matrix[y][x])
+                .attr('height', moduleSize)
+                .attr('width', moduleSize)
+                .attr('x', x*moduleSize)
+                .attr('y', y*moduleSize);
+            const color = colorFunction(x,y,matrix,matrix[y][x]);
+            symbol.attr('fill', color);
+            svg.append(()=>symbol.node());
         }
     }
 }
 
-$('.qrCoder__submit')[0].addEventListener('click',makenewcode);
-const code = qrcode(0,'M')
-code.addData('plu');
-code.make();
+function makeCode(text, moduleSize=5, moduleType='default'){
+    const code = qrcode(0,'H')
+    code.addData(text);
+    code.make();
+    const moduleCount = code.getModuleCount();
+    
+    const svg = d3.create("svg:svg")
+    .attr('height',moduleCount*moduleSize)
+    .attr('width',moduleCount*moduleSize);
+    
+    const codeMatrix = qrcodeToMatrix(code);
+    switch (moduleType) {
+        case 'dummycase':
+            break;
+        default:
+            fillWithSameSymbol(moduleSize,svg,codeMatrix,symbol_rect,(x,y,matrix,isDark)=>color_two(isDark));
+            break;
+    }
+    return svg.node();
+}
+
+function generatCodeHandler(event){
+    const code = makeCode($('.qrCoder__text').val());
+    $('.qrCoder__outputs').children().remove() 
+    $('.qrCoder__outputs').append(code);
+}
+
+$('.qrCoder__submit')[0].addEventListener('click',generatCodeHandler);
