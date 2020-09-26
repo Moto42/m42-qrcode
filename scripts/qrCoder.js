@@ -17,30 +17,62 @@ function color_two(isDark=false,dark='hsl(0,0%,0%)', light='hsl(0,0%,100%)'){
     return (isDark ? dark : light);
 }
 function color_picker(x,y,matrix,isDark) {
+    if(x == -1) y == 1 ?  $('.qrCoder__color_dark').val() : $('.qrCoder__color_light').val();
     const color = isDark ? $('.qrCoder__color_dark').val() : $('.qrCoder__color_light').val();
     return color;
 }
 
-function symbol_rect(x,y,matrix,isDark){
+function symbol_rectangle(x,y,matrix,isDark){
     const r = d3.create('svg:rect')
         .attr('height', '100%')
-        .attr('width', '100%');
-    r.node().classList.add('qr_code__module');
+        .attr('width', '100%')
+        .attr('fill-opacity', '1');
     r.node().classList.add((isDark?'qr_code__module--dark':'qr_code__module--light'));
     return r;
 }
+function symbol_triangle(x,y,matrix,isDark){
+    const tri = d3.create('svg:polygon')
+        .attr('points', '50,0 6.7,75 93.3,75')
+        .attr('fill-opacity', '1');
+    tri.node().classList.add((isDark?'qr_code__module--dark':'qr_code__module--light'));
+    return tri;
+}
+function symbol_diamond(x,y,matrix,isDark){
+    const tri = d3.create('svg:polygon')
+        .attr('points', '50,0 10,50 50,100 90,50')
+        .attr('fill-opacity', '1');
+    tri.node().classList.add((isDark?'qr_code__module--dark':'qr_code__module--light'));
+    return tri;
+}
 
 function fillWithSameSymbol(moduleSize,svg,matrix,symbolfunction,colorFunction){
+    const background = d3.create('svg:rect')
+        .attr('height', '100%')
+        .attr('width', '100%')
+        .attr('fill' , '#00ff00')
+        .attr('fill', colorFunction(-1,0,[],false));
+    background.node().classList.add('qr_code__module--light');
+    svg.append(()=>background.node());
+    
     for(let y in matrix){
         for(let x in matrix){
-            const symbol = symbolfunction(x,y,matrix,matrix[y][x])
-                .attr('height', moduleSize)
-                .attr('width', moduleSize)
-                .attr('x', x*moduleSize)
-                .attr('y', y*moduleSize);
-            const color = colorFunction(x,y,matrix,matrix[y][x]);
-            symbol.attr('fill', color);
-            svg.append(()=>symbol.node());
+            const moddy = d3.create('svg:svg')
+            .attr('height', moduleSize)
+            .attr('width', moduleSize)
+            .attr('x', x*moduleSize)
+            .attr('y', y*moduleSize)
+            .attr( 'viewBox', '0 0 100 100')
+            .attr('fill-opacity', '0');
+            moddy.node().classList.add('qr_code__module');
+            
+            if(matrix[y][x]){
+                const symbol = symbolfunction(x,y,matrix,matrix[y][x])
+                const color = colorFunction(x,y,matrix,matrix[y][x]);
+                symbol.attr('fill', color);
+                moddy.append(()=>symbol.node());
+            }
+            
+            svg.append(()=>moddy.node());
         }
     }
 }
@@ -59,10 +91,10 @@ function makeCode(text, moduleSize=5, moduleType='picker'){
     const codeMatrix = qrcodeToMatrix(code);
     switch (moduleType) {
         case 'picker':
-            fillWithSameSymbol(moduleSize,svg,codeMatrix,symbol_rect,color_picker);
+            fillWithSameSymbol(moduleSize,svg,codeMatrix,symbol_rectangle,color_picker);
             break;
         default:
-            fillWithSameSymbol(moduleSize,svg,codeMatrix,symbol_rect,(x,y,matrix,isDark)=>color_two(isDark));
+            fillWithSameSymbol(moduleSize,svg,codeMatrix,symbol_rectangle,(x,y,matrix,isDark)=>color_two(isDark));
             break;
     }
     return svg.node();
