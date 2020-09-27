@@ -12,13 +12,22 @@ function qrcodeToMatrix(code) {
     }
     return output;
 }
+function addNoiseToColor(color,noiseLevel){
+    return color;
+}
 
 function color_two(isDark=false,dark='hsl(0,0%,0%)', light='hsl(0,0%,100%)'){
     return (isDark ? dark : light);
 }
 function color_picker(x,y,matrix,isDark) {
     if(x == -1) y == 1 ?  $('.qrCoder__color_dark').val() : $('.qrCoder__color_light').val();
-    const color = isDark ? $('.qrCoder__color_dark').val() : $('.qrCoder__color_light').val();
+    if(isDark){
+        const chosenColor =  $('.qrCoder__color_dark').val();
+        const noiseLevel = $('.qrCoder__dark_color_noise_slider').val()/1000;
+        const noisycolor = addNoiseToColor(chosenColor, noiseLevel);
+        return noisycolor;
+    }
+    else return $('.qrCoder__color_light').val();
     return color;
 }
 
