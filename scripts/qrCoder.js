@@ -1,13 +1,4 @@
 
-/**
- * Increases/decreases a number by a given amount, if the result exceeds the maximum
- * it will start back at 0, below zero will start back at the max value.
- * Think of it as spinning a numbered wheel a given number of clicks.
- * @param {*} number Starting number
- * @param {*} rotateBy How many 'clicks' to move.
- * @param {*} maxValue Maximum allowable value.
- */
-
 
 function qrcodeToMatrix(code) {
     const width = code.getModuleCount();
