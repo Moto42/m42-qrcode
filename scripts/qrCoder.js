@@ -1,4 +1,13 @@
 
+/**
+ * Increases/decreases a number by a given amount, if the result exceeds the maximum
+ * it will start back at 0, below zero will start back at the max value.
+ * Think of it as spinning a numbered wheel a given number of clicks.
+ * @param {*} number Starting number
+ * @param {*} rotateBy How many 'clicks' to move.
+ * @param {*} maxValue Maximum allowable value.
+ */
+
 
 function qrcodeToMatrix(code) {
     const width = code.getModuleCount();
@@ -12,8 +21,32 @@ function qrcodeToMatrix(code) {
     }
     return output;
 }
+function rangeClamp(number, min, max) {
+    if(number < min) return min;
+    if(number > max) return max;
+    return number;
+}
+
 function addNoiseToColor(color,noiseLevel){
-    return color;
+    const hsl = d3.hsl(color);
+    
+    if(Number.isNaN(hsl.h)) hsl.h = 1;
+    const hRange = 26
+    hsl.h = Math.abs(hsl.h+((Math.random()*(hRange*2))-hRange))%360;
+
+    if(Number.isNaN(hsl.s)) hsl.s = 0;
+    const sRange = .1;
+    const sChange = (Math.random()*sRange)-sRange*.5;
+    const newS = hsl.s+sChange;
+    hsl.s = rangeClamp(newS,0,1);
+
+    if(Number.isNaN(hsl.l)) hsl.l = 0;
+    const lRange = .1;
+    const lChange = (Math.random()*lRange)-lRange*.5;
+    const newL = hsl.l+lChange;
+    hsl.l = rangeClamp(newL,0,1);
+
+    return hsl.hex();
 }
 
 function color_two(isDark=false,dark='hsl(0,0%,0%)', light='hsl(0,0%,100%)'){
