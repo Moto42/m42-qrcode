@@ -153,12 +153,16 @@ function lightColorPickerHandler(event){
 function darkColorPickerHandler(event){
     generateCodeHandler(event);
 }
+function noiseLevelSliderHandler(event) {
+    generateCodeHandler(event);
+}
 
 $('.qrCoder__submit')[0].addEventListener('click',generateCodeHandler);
 $('.qrCoder__color_light')[0].addEventListener('change',lightColorPickerHandler);
 $('.qrCoder__color_light')[0].addEventListener('input',lightColorPickerHandler);
 $('.qrCoder__color_dark')[0].addEventListener('change',darkColorPickerHandler);
 $('.qrCoder__color_dark')[0].addEventListener('input',darkColorPickerHandler);
+$('.qrCoder__dark_color_noise_slider')[0].addEventListener('input',noiseLevelSliderHandler);
 
 //First placeholder code;
 (()=>{
