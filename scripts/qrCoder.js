@@ -148,10 +148,10 @@ function generateCodeHandler(event){
     $('.qrCoder__outputs').append(code);
 }
 function lightColorPickerHandler(event){
-    $('.qr_code__module--light').attr('fill',event.target.value);
+    generateCodeHandler(event);
 }
 function darkColorPickerHandler(event){
-    $('.qr_code__module--dark').attr('fill',event.target.value);
+    generateCodeHandler(event);
 }
 
 $('.qrCoder__submit')[0].addEventListener('click',generateCodeHandler);
