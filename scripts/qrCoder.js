@@ -22,17 +22,17 @@ function addNoiseToColor(color,noiseLevel){
     const hsl = d3.hsl(color);
     
     if(Number.isNaN(hsl.h)) hsl.h = 1;
-    const hRange = 360*noiseLevel;
+    const hRange = 45*noiseLevel;
     hsl.h = Math.abs(hsl.h+((Math.random()*(hRange*2))-hRange))%360;
 
     if(Number.isNaN(hsl.s)) hsl.s = 0;
-    const sRange = 1*noiseLevel;
+    const sRange = .9*noiseLevel;
     const sChange = (Math.random()*sRange)-sRange*.5;
     const newS = hsl.s+sChange;
     hsl.s = rangeClamp(newS,0,1);
 
     if(Number.isNaN(hsl.l)) hsl.l = 0;
-    const lRange = 1*noiseLevel;
+    const lRange = .9*noiseLevel;
     const lChange = (Math.random()*lRange)-lRange*.5;
     const newL = hsl.l+lChange;
     hsl.l = rangeClamp(newL,0,1);
