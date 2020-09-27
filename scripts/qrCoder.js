@@ -142,10 +142,19 @@ function makeCode(text, moduleSize=5, moduleType='picker'){
     return svg.node();
 }
 
-function generateCodeHandler(event){
-    const code = makeCode($('.qrCoder__text').val());
+function generatePlaceholderCode(){
+    const code = makeCode("https://youtu.be/oHg5SJYRHA0?autoplay=1");
     $('.qrCoder__outputs').children().remove() 
     $('.qrCoder__outputs').append(code);
+}
+
+function generateCodeHandler(event){
+    if($('.qrCoder__text').val() === '') generatePlaceholderCode();
+    else{
+        const code = makeCode($('.qrCoder__text').val());
+        $('.qrCoder__outputs').children().remove() 
+        $('.qrCoder__outputs').append(code);
+    }
 }
 function lightColorPickerHandler(event){
     generateCodeHandler(event);
