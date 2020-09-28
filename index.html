@@ -13,21 +13,21 @@
                 <label for="qrCoder__inputs__color_dark">Module Color</label>
                 <input type="color" name="qrCoder__inputs__color_dark" id="qrCoder__inputs__color_dark" value="#000000">
                 <label for="qrCoder__inputs__color_dark__noise">Module Color Noise</label>
-                <input type="range" name="qrCoder__inputs__color_dark__noise" id="qrCoder__inputs__color_dark__noise" min="0" max="1000">
+                <input type="range" name="qrCoder__inputs__color_dark__noise" id="qrCoder__inputs__color_dark__noise" min="0" max="1000" value="0">
                 <label for="qrCoder__inputs__color_light">Background Color</label>
                 <input type="color" name="qrCoder__inputs__color_light" id="qrCoder__inputs__color_light" value="#ffffff">
                 <label for="qrCoder__inputs__module_size">Module Size</label>
-                <input type="number" name="qrCoder__inputs__module_size" id="qrCoder__inputs__module_size">
+                <input type="range" name="qrCoder__inputs__module_size" id="qrCoder__inputs__module_size" min="2" max="10" value="4">
             </div>
             <div id="qrCoder__panels_module_shape" class="two_panels__right labeled_inputs">
                 <input type="radio" name="qrCoder__inputs__module_shape" id="qrCoder__inputs__module_shape__square"   value="square" checked>
-                <label for="qrCoder__inputs__module_shape__square">Square</label>
+                <label for="qrCoder__inputs__module_shape__square" class="addSymbol" data-addSymbol="square">Square</label>
                 <input type="radio" name="qrCoder__inputs__module_shape" id="qrCoder__inputs__module_shape__triangle" value="triangle">
-                <label for="qrCoder__inputs__module_shape__triangle">Triangle</label>
+                <label for="qrCoder__inputs__module_shape__triangle" class="addSymbol" data-addSymbol="triangle">Triangle</label>
                 <input type="radio" name="qrCoder__inputs__module_shape" id="qrCoder__inputs__module_shape__emojies"  value="emojies">
-                <label for="qrCoder__inputs__module_shape__emojies">Emojies</label>
+                <label for="qrCoder__inputs__module_shape__emojies" class="addSymbol" data-addSymbol="emojies">Emojies</label>
                 <input type="radio" name="qrCoder__inputs__module_shape" id="qrCoder__inputs__module_shape__diamond"  value="diamond">
-                <label for="qrCoder__inputs__module_shape__diamond">Diamond</label>
+                <label for="qrCoder__inputs__module_shape__diamond" class="addSymbol" data-addSymbol="diamond">Diamond</label>
             </div>
             
         </form>
