@@ -7,22 +7,37 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <section class="qrCoder">
-        <div class="qrCoder__inputs">
-            <label for="qrCoder__text">URL</label>
-            <input type="text" class="qrCoder__text" name="qrCoder__text">
-            <input type="button" class="qrCoder__submit" value="Generate">
-            <label for="qrCoder__color_dark">Dark Color</label>
-            <input type="color" autocomplete="off" class="qrCoder__color_picker qrCoder__color_dark" name="qrCoder__color_dark" value="#000000">
-            <label for="qrCoder__color_light">Light Color</label>
-            <input type="color" autocomplete="off" class="qrCoder__color_picker qrCoder__color_light" name="qrCoder__color_light" value="#ffffff">
-            <input type="range" 
-            min="0" max="1000" value="0"
-                name="qrCoder__dark_color_noise_slider" class="qrCoder__dark_color_noise_slider"
-            >
-        </div>
-        <div class="qrCoder__outputs">
+    <section id="qrCoder">
+        <form onSubmit="return false;" id="qrCoder__inputs" autocomplete="off">
+            <div id="qrCoder__panels_color">
+                <label for="qrCoder__inputs__color_dark">Module Color</label>
+                <input type="color" name="qrCoder__inputs__color_dark" id="qrCoder__inputs__color_dark" value="#000000">
+                <label for="qrCoder__inputs__color_dark__noise">Module Color Noise</label>
+                <input type="range" name="qrCoder__inputs__color_dark__noise" id="qrCoder__inputs__color_dark__noise" min="0" max="1000">
+                <label for="qrCoder__inputs__color_light">Background Color</label>
+                <input type="color" name="qrCoder__inputs__color_light" id="qrCoder__inputs__color_light" value="#ffffff">
+            </div>
+            <div id="qrCoder__panels_module_shape">
+                <input type="radio" name="qrCoder__inputs__module_shape" id="qrCoder__inputs__module_shape__square"   value="square" checked>
+                <label for="qrCoder__inputs__module_shape__square">Square</label>
+                <input type="radio" name="qrCoder__inputs__module_shape" id="qrCoder__inputs__module_shape__triangle" value="triangle">
+                <label for="qrCoder__inputs__module_shape__triangle">Triangle</label>
+                <input type="radio" name="qrCoder__inputs__module_shape" id="qrCoder__inputs__module_shape__emojies"  value="emojies">
+                <label for="qrCoder__inputs__module_shape__emojies">Emojies</label>
+                <input type="radio" name="qrCoder__inputs__module_shape" id="qrCoder__inputs__module_shape__diamond"  value="diamond">
+                <label for="qrCoder__inputs__module_shape__diamond">Diamond</label>
+            </div>
+            <div id="qrCoder__panels_module_size">
+                <label for="qrCoder__inputs__module_size">Module Size</label>
+                <input type="number" name="qrCoder__inputs__module_size" id="qrCoder__inputs__module_size">
+            </div>
             
+        </form>
+        <div id="qrCoder__outputs">
+            <div id="qrCoder__code_container">
+                <!-- put svg here -->
+            </div>
+            <input type="button" value="Download SVG" id="qrCoder__downloads__svg">
         </div>
     </section>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
