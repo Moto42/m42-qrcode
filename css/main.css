@@ -14,6 +14,9 @@
   display: grid;
   grid-template-columns: max-content max-content;
 }
+.labeled_inputs > input[type=radio] {
+  align-self: flex-start;
+}
 .width_clamp--14ch {
   max-width: 14ch;;
 }
