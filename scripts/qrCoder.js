@@ -44,15 +44,18 @@ function color_two(isDark=false,dark='hsl(0,0%,0%)', light='hsl(0,0%,100%)'){
     return (isDark ? dark : light);
 }
 function color_picker(x,y,matrix,isDark) {
-    if(x == -1) y == 1 ?  $('.qrCoder__color_dark').val() : $('.qrCoder__color_light').val();
+    if(x == -1) {
+        color =  isDark ?  $('#qrCoder__inputs__color_dark').val() : $('#qrCoder__inputs__color_light').val();
+        return color;
+    }
     if(isDark){
-        const chosenColor =  $('.qrCoder__color_dark').val();
-        const noiseLevel = $('.qrCoder__dark_color_noise_slider').val()/1000;
+        const chosenColor =  $('#qrCoder__inputs__color_dark').val();
+        const noiseLevel = $('#qrCoder__inputs__color_dark__noise').val()/1000;
         const noisycolor = addNoiseToColor(chosenColor, noiseLevel);
         return noisycolor;
     }
-    else return $('.qrCoder__color_light').val();
-    return color;
+    else return $('#qrCoder__inputs__color_light').val();
+    return 'white'; //this line should never execute.
 }
 
 function symbol_rectangle(x,y,matrix,isDark){
@@ -83,7 +86,8 @@ function fillWithSameSymbol(moduleSize,svg,matrix,symbolfunction,colorFunction){
         .attr('height', '100%')
         .attr('width', '100%')
         .attr('fill' , '#00ff00')
-        .attr('fill', colorFunction(-1,0,[],false));
+        // .attr('fill', 'white');
+        .attr('fill', colorFunction(-1,0,matrix,false));
     background.node().classList.add('qr_code__module--light');
     svg.append(()=>background.node());
     
@@ -139,25 +143,26 @@ function generatePlaceholderCode(){
 }
 
 function generateCodeHandler(event){
-    console.log('pants');
-    // if($('.qrCoder__text').val() === '') generatePlaceholderCode();
-    // else{
-    //     const code = makeCode($('.qrCoder__text').val());
-    //     $('.qrCoder__outputs').children().remove() 
-    //     $('.qrCoder__outputs').append(code);
-    // }
+    const text = $('#qrCoder__inputs__text').val()
+    const moduleSize = $('#qrCoder__inputs__module_size').val();
+    const code = makeCode(text,moduleSize);
+    $('#qrCoder__code_container').children().remove() 
+    $('#qrCoder__code_container').append(code);
 }
 function downloadSVGHandler(event){
     // TODO: this is a stub
 }
+//Set up event listeners
+(()=>{
+    $('#qrCoder__inputs__generate').click(generateCodeHandler);
+    $('#qrCoder__inputs__text').change(generateCodeHandler);
+    $('#qrCoder__inputs__color_dark').change(generateCodeHandler);
+    $('#qrCoder__inputs__color_light').change(generateCodeHandler);
+    $('#qrCoder__inputs__color_dark__noise').on('input', generateCodeHandler);
+    $('#qrCoder__inputs__module_size').on('input', generateCodeHandler);
 
-$('#qrCoder__inputs__generate').on('click',generateCodeHandler);
-$('#qrCoder__inputs__text').on('change input',generateCodeHandler);
-$('#qrCoder__inputs__color_dark').on('change input',generateCodeHandler);
-$('#qrCoder__inputs__color_dark__noise').on('change input',generateCodeHandler);
-$('#qrCoder__inputs__color_light').on('change input',generateCodeHandler);
-$('#qrCoder__inputs__module_size').on('change input',generateCodeHandler);
-$('qrCoder__downlads__svg').on('click',downloadSVGHandler);
+    $('qrCoder__downlads__svg').on('click',downloadSVGHandler);
+})();
 
 //First placeholder code;
 (()=>{
