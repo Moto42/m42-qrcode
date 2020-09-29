@@ -167,7 +167,7 @@ function downloadSVGHandler(event){
 //Set up event listeners
 (()=>{
     $('#qrCoder__inputs__generate').click(generateCodeHandler);
-    $('#qrCoder__inputs__text').change(generateCodeHandler);
+    $('#qrCoder__inputs__text').on('input', generateCodeHandler);
     $('#qrCoder__inputs__color_dark').change(generateCodeHandler);
     $('#qrCoder__inputs__color_light').change(generateCodeHandler);
     $('#qrCoder__inputs__color_dark__noise').on('input', generateCodeHandler);
