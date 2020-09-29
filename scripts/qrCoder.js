@@ -138,7 +138,8 @@ function makeCode(text, moduleSize=5, moduleType='picker'){
 }
 
 function generatePlaceholderCode(){
-    const code = makeCode("https://youtu.be/oHg5SJYRHA0?autoplay=1");
+    const moduleSize = $('#qrCoder__inputs__module_size').val();
+    const code = makeCode("https://youtu.be/oHg5SJYRHA0?autoplay=1", moduleSize);
     return code;
 }
 
