@@ -135,34 +135,29 @@ function makeCode(text, moduleSize=5, moduleType='picker'){
 
 function generatePlaceholderCode(){
     const code = makeCode("https://youtu.be/oHg5SJYRHA0?autoplay=1");
-    $('.qrCoder__outputs').children().remove() 
-    $('.qrCoder__outputs').append(code);
+    return code;
 }
 
 function generateCodeHandler(event){
-    if($('.qrCoder__text').val() === '') generatePlaceholderCode();
-    else{
-        const code = makeCode($('.qrCoder__text').val());
-        $('.qrCoder__outputs').children().remove() 
-        $('.qrCoder__outputs').append(code);
-    }
+    console.log('pants');
+    // if($('.qrCoder__text').val() === '') generatePlaceholderCode();
+    // else{
+    //     const code = makeCode($('.qrCoder__text').val());
+    //     $('.qrCoder__outputs').children().remove() 
+    //     $('.qrCoder__outputs').append(code);
+    // }
 }
-function lightColorPickerHandler(event){
-    generateCodeHandler(event);
-}
-function darkColorPickerHandler(event){
-    generateCodeHandler(event);
-}
-function noiseLevelSliderHandler(event) {
-    generateCodeHandler(event);
+function downloadSVGHandler(event){
+    // TODO: this is a stub
 }
 
-$('.qrCoder__submit')[0].addEventListener('click',generateCodeHandler);
-$('.qrCoder__color_light')[0].addEventListener('change',lightColorPickerHandler);
-$('.qrCoder__color_light')[0].addEventListener('input',lightColorPickerHandler);
-$('.qrCoder__color_dark')[0].addEventListener('change',darkColorPickerHandler);
-$('.qrCoder__color_dark')[0].addEventListener('input',darkColorPickerHandler);
-$('.qrCoder__dark_color_noise_slider')[0].addEventListener('input',noiseLevelSliderHandler);
+$('#qrCoder__inputs__generate').on('click',generateCodeHandler);
+$('#qrCoder__inputs__text').on('change input',generateCodeHandler);
+$('#qrCoder__inputs__color_dark').on('change input',generateCodeHandler);
+$('#qrCoder__inputs__color_dark__noise').on('change input',generateCodeHandler);
+$('#qrCoder__inputs__color_light').on('change input',generateCodeHandler);
+$('#qrCoder__inputs__module_size').on('change input',generateCodeHandler);
+$('qrCoder__downlads__svg').on('click',downloadSVGHandler);
 
 //First placeholder code;
 (()=>{
