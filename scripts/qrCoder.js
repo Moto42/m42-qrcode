@@ -114,7 +114,7 @@ function fillWithSameSymbol(moduleSize,svg,matrix,symbolfunction,colorFunction){
     }
 }
 
-function makeCode(text, moduleSize=5, moduleType='picker'){
+function makeCode(text, moduleSize=5){
     const code = qrcode(0,'H')
     code.addData(text);
     code.make();
@@ -126,14 +126,7 @@ function makeCode(text, moduleSize=5, moduleType='picker'){
     svg.node().classList.add('qr_code');
     
     const codeMatrix = qrcodeToMatrix(code);
-    switch (moduleType) {
-        case 'picker':
-            fillWithSameSymbol(moduleSize,svg,codeMatrix,symbol_rectangle,color_picker);
-            break;
-        default:
-            fillWithSameSymbol(moduleSize,svg,codeMatrix,symbol_rectangle,(x,y,matrix,isDark)=>color_two(isDark));
-            break;
-    }
+    fillWithSameSymbol(moduleSize,svg,codeMatrix,symbol_rectangle,color_picker);
     return svg.node();
 }
 
@@ -152,6 +145,7 @@ function generateCodeHandler(event){
 }
 function downloadSVGHandler(event){
     // TODO: this is a stub
+    // Better yet: Can we make the svg right-clickable?
 }
 //Set up event listeners
 (()=>{
