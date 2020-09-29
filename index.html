@@ -8,28 +8,31 @@
 </head>
 <body>
     <section id="qrCoder">
-        <form onSubmit="return false;" id="qrCoder__inputs" autocomplete="off" class="two_panels">
-            <div id="qrCoder__panels_color" class="two_panels__left labeled_inputs">
-                <label for="qrCoder__inputs__color_dark">Module Color</label>
-                <input type="color" name="qrCoder__inputs__color_dark" id="qrCoder__inputs__color_dark" value="#000000">
-                <label for="qrCoder__inputs__color_dark__noise">Module Color Noise</label>
-                <input type="range" name="qrCoder__inputs__color_dark__noise" id="qrCoder__inputs__color_dark__noise" min="0" max="1000" value="0">
-                <label for="qrCoder__inputs__color_light">Background Color</label>
-                <input type="color" name="qrCoder__inputs__color_light" id="qrCoder__inputs__color_light" value="#ffffff">
-                <label for="qrCoder__inputs__module_size">Module Size</label>
-                <input type="range" name="qrCoder__inputs__module_size" id="qrCoder__inputs__module_size" min="2" max="10" value="4">
+        <form onSubmit="return false;" id="qrCoder__inputs" autocomplete="off" class="">
+            <input type="text" id="qrCoder__inputs__text">
+            <input type="button" id="qrCoder__inputs__generate" value="Generate Code">
+            <div class="two_panels">
+                <div id="qrCoder__panels_color" class="two_panels__left labeled_inputs">
+                    <label for="qrCoder__inputs__color_dark">Module Color</label>
+                    <input type="color" name="qrCoder__inputs__color_dark" id="qrCoder__inputs__color_dark" value="#000000">
+                    <label for="qrCoder__inputs__color_dark__noise">Module Color Noise</label>
+                    <input type="range" name="qrCoder__inputs__color_dark__noise" id="qrCoder__inputs__color_dark__noise" min="0" max="1000" value="0">
+                    <label for="qrCoder__inputs__color_light">Background Color</label>
+                    <input type="color" name="qrCoder__inputs__color_light" id="qrCoder__inputs__color_light" value="#ffffff">
+                    <label for="qrCoder__inputs__module_size">Module Size</label>
+                    <input type="range" name="qrCoder__inputs__module_size" id="qrCoder__inputs__module_size" min="2" max="10" value="4">
+                </div>
+                <div id="qrCoder__panels_module_shape" class="two_panels__right labeled_inputs">
+                    <input type="radio" name="qrCoder__inputs__module_shape" id="qrCoder__inputs__module_shape__square"   value="square" checked>
+                    <label for="qrCoder__inputs__module_shape__square" class="addSymbol" data-addSymbol="square">Square</label>
+                    <input type="radio" name="qrCoder__inputs__module_shape" id="qrCoder__inputs__module_shape__triangle" value="triangle">
+                    <label for="qrCoder__inputs__module_shape__triangle" class="addSymbol" data-addSymbol="triangle">Triangle</label>
+                    <input type="radio" name="qrCoder__inputs__module_shape" id="qrCoder__inputs__module_shape__emojies"  value="emojies">
+                    <label for="qrCoder__inputs__module_shape__emojies" class="addSymbol" data-addSymbol="emojies">Emojies</label>
+                    <input type="radio" name="qrCoder__inputs__module_shape" id="qrCoder__inputs__module_shape__diamond"  value="diamond">
+                    <label for="qrCoder__inputs__module_shape__diamond" class="addSymbol" data-addSymbol="diamond">Diamond</label>
+                </div>
             </div>
-            <div id="qrCoder__panels_module_shape" class="two_panels__right labeled_inputs">
-                <input type="radio" name="qrCoder__inputs__module_shape" id="qrCoder__inputs__module_shape__square"   value="square" checked>
-                <label for="qrCoder__inputs__module_shape__square" class="addSymbol" data-addSymbol="square">Square</label>
-                <input type="radio" name="qrCoder__inputs__module_shape" id="qrCoder__inputs__module_shape__triangle" value="triangle">
-                <label for="qrCoder__inputs__module_shape__triangle" class="addSymbol" data-addSymbol="triangle">Triangle</label>
-                <input type="radio" name="qrCoder__inputs__module_shape" id="qrCoder__inputs__module_shape__emojies"  value="emojies">
-                <label for="qrCoder__inputs__module_shape__emojies" class="addSymbol" data-addSymbol="emojies">Emojies</label>
-                <input type="radio" name="qrCoder__inputs__module_shape" id="qrCoder__inputs__module_shape__diamond"  value="diamond">
-                <label for="qrCoder__inputs__module_shape__diamond" class="addSymbol" data-addSymbol="diamond">Diamond</label>
-            </div>
-            
         </form>
         <div id="qrCoder__outputs" class="two_panels">
             <div id="qrCoder__code_container" class="two_panels__left">
