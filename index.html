@@ -11,8 +11,10 @@
     <main class="content">
         <section id="qrCoder">
             <form onSubmit="return false;" id="qrCoder__inputs" autocomplete="off" class="">
-                <input type="text" id="qrCoder__inputs__text">
-                <input type="button" id="qrCoder__inputs__generate" value="Generate Code">
+                <div id="qrCoder__panels_top" class="flex">
+                    <input type="text" id="qrCoder__inputs__text" class="flex_grow">
+                    <input type="button" id="qrCoder__inputs__generate" value="Generate Code">
+                </div>
                 <div class="two_panels">
                     <div id="qrCoder__panels_color" class="two_panels__left labeled_inputs">
                         <label for="qrCoder__inputs__color_dark">Module Color</label>

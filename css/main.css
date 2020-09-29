@@ -44,3 +44,9 @@ body {
 .labeled_inputs > input[type=radio] {
   align-self: flex-start;
 }
+.flex {
+  display: flex;
+}
+.flex_grow {
+  flex-grow: 1;
+}
