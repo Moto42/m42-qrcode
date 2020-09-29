@@ -143,7 +143,6 @@ function makeCode(text, moduleSize=5){
             symbolFunction = symbol_rectangle;
             break;
     }
-    console.log(symbolSelection);
     fillWithSameSymbol(moduleSize,svg,codeMatrix,symbolFunction,color_picker);
     return svg.node();
 }
@@ -173,6 +172,8 @@ function downloadSVGHandler(event){
     $('#qrCoder__inputs__color_light').change(generateCodeHandler);
     $('#qrCoder__inputs__color_dark__noise').on('input', generateCodeHandler);
     $('#qrCoder__inputs__module_size').on('input', generateCodeHandler);
+
+    $('.qrCoder__inputs__module_shape').click(generateCodeHandler);
 
     $('qrCoder__downlads__svg').on('click',downloadSVGHandler);
 })();
