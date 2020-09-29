@@ -80,6 +80,15 @@ function symbol_diamond(x,y,matrix,isDark){
     tri.node().classList.add((isDark?'qr_code__module--dark':'qr_code__module--light'));
     return tri;
 }
+function symbol_emoji(x,y,matrix,isDark){
+    const emo = d3.create('svg:text')
+        .attr('x',"-8")
+        .attr('y',"80")
+        .attr('font-size',"85")
+        .text('😀');
+    emo.node().classList.add((isDark?'qr_code__module--dark':'qr_code__module--light'));
+    return emo;   
+}
 
 function fillWithSameSymbol(moduleSize,svg,matrix,symbolfunction,colorFunction){
     const background = d3.create('svg:rect')
@@ -138,6 +147,9 @@ function makeCode(text, moduleSize=5){
             break;
         case 'diamond':
             symbolFunction = symbol_diamond;
+            break;
+        case 'emoji':
+            symbolFunction = symbol_emoji;
             break;
         default:
             symbolFunction = symbol_rectangle;
