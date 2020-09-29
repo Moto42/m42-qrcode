@@ -68,14 +68,14 @@ function symbol_rectangle(x,y,matrix,isDark){
 }
 function symbol_triangle(x,y,matrix,isDark){
     const tri = d3.create('svg:polygon')
-        .attr('points', '50,0 6.7,75 93.3,75')
+        .attr('points', '50,0 6.7,100 93.3,100')
         .attr('fill-opacity', '1');
     tri.node().classList.add((isDark?'qr_code__module--dark':'qr_code__module--light'));
     return tri;
 }
 function symbol_diamond(x,y,matrix,isDark){
     const tri = d3.create('svg:polygon')
-        .attr('points', '50,0 10,50 50,100 90,50')
+        .attr('points', '50,0 0,50 50,100 100,50')
         .attr('fill-opacity', '1');
     tri.node().classList.add((isDark?'qr_code__module--dark':'qr_code__module--light'));
     return tri;
@@ -126,7 +126,25 @@ function makeCode(text, moduleSize=5){
     svg.node().classList.add('qr_code');
     
     const codeMatrix = qrcodeToMatrix(code);
-    fillWithSameSymbol(moduleSize,svg,codeMatrix,symbol_rectangle,color_picker);
+
+    const symbolSelection = $('input[name="qrCoder__inputs__module_shape"]:checked').val();
+    let symbolFunction;
+    switch(symbolSelection) {
+        case 'rectangle':
+            symbolFunction = symbol_rectangle;
+            break;
+        case 'triangle':
+            symbolFunction = symbol_triangle;
+            break;
+        case 'diamond':
+            symbolFunction = symbol_diamond;
+            break;
+        default:
+            symbolFunction = symbol_rectangle;
+            break;
+    }
+    console.log(symbolSelection);
+    fillWithSameSymbol(moduleSize,svg,codeMatrix,symbolFunction,color_picker);
     return svg.node();
 }
 
