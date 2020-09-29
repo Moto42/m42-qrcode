@@ -163,6 +163,6 @@ $('qrCoder__downlads__svg').on('click',downloadSVGHandler);
 (()=>{
     const params = new URLSearchParams(window.location.search);
     const text = params.get('codeText') ? params.get('codeText') : "https://youtu.be/oHg5SJYRHA0?autoplay=1";
-    const code = makeCode(text);
-    $('.qrCoder__outputs').append(code);
+    $('#qrCoder__inputs__text').val(text);
+    generateCodeHandler();
 })();
