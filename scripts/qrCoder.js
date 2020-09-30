@@ -18,6 +18,26 @@ function rangeClamp(number, min, max) {
     return number;
 }
 
+function svgToDataUri(svg){
+    let source = new XMLSerializer().serializeToString(svg);
+    source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+    const url = "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(source);
+    return url;
+}
+
+function download(filename, uri) {
+    var element = document.createElement('a');
+    element.setAttribute('href', uri);
+    element.setAttribute('download', filename);
+  
+    element.style.display = 'none';
+    document.body.appendChild(element);
+  
+    element.click();
+  
+    document.body.removeChild(element);
+  }
+
 function randomEmoji(){
     // limiting emoji to an inoffensive libary
     const library = [
@@ -224,8 +244,9 @@ function generateCodeHandler(event){
     $('#qrCoder__code_container').append(code);
 }
 function downloadSVGHandler(event){
-    // TODO: this is a stub
-    // Better yet: Can we make the svg right-clickable?
+    const svgNode = d3.select('.qr_code').node();
+    const uri = svgToDataUri(svgNode);
+    download('qrCode.svg', uri);
 }
 function darkColorHandler(event){
     $('.qr_code__module--dark').css('fill', event.target.value);
@@ -247,7 +268,7 @@ function lightColorHandler(event){
 
     $('.qrCoder__inputs__module_shape').click(generateCodeHandler);
 
-    $('qrCoder__downlads__svg').on('click',downloadSVGHandler);
+    $('#qrCoder__downloads__svg').on('click',downloadSVGHandler);
 })();
 
 //First placeholder code;
