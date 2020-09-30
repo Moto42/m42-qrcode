@@ -215,12 +215,21 @@ function downloadSVGHandler(event){
     // TODO: this is a stub
     // Better yet: Can we make the svg right-clickable?
 }
+function darkColorHandler(event){
+    $('.qr_code__module--dark').css('fill', event.target.value);
+}
+function lightColorHandler(event){
+    $('.qr_code__module--light').css('fill', event.target.value);
+}
+
 //Set up event listeners
 (()=>{
     $('#qrCoder__inputs__generate').click(generateCodeHandler);
     $('#qrCoder__inputs__text').on('input', generateCodeHandler);
     $('#qrCoder__inputs__color_dark').change(generateCodeHandler);
+    $('#qrCoder__inputs__color_dark').on('input',darkColorHandler);
     $('#qrCoder__inputs__color_light').change(generateCodeHandler);
+    $('#qrCoder__inputs__color_light').on('input',lightColorHandler);
     $('#qrCoder__inputs__color_dark__noise').on('input', generateCodeHandler);
     $('#qrCoder__inputs__module_size').on('input', generateCodeHandler);
 
