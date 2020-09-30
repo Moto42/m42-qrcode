@@ -18,6 +18,13 @@ function rangeClamp(number, min, max) {
     return number;
 }
 
+function svgToDataUri(svg){
+    let source = new XMLSerializer().serializeToString(svg);
+    source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+    const url = "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(source);
+    return url;
+}
+
 function randomEmoji(){
     // limiting emoji to an inoffensive libary
     const library = [
