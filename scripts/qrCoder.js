@@ -80,6 +80,18 @@ function addNoiseToColor(color,noiseLevel){
     return hsl.hex();
 }
 
+function plusminus(num,noiseLevel=1){
+    return ((num*2*Math.random())-num)*noiseLevel;
+}
+
+function addNoiseToSymbol(symbol, noiseLevel){
+    const sat = 100 + plusminus(75,noiseLevel);
+    const lit = 100 + plusminus(75,noiseLevel);
+    const hue = plusminus(90,noiseLevel);
+    const style = `hue-rotate(${hue}deg) saturate(${sat}%) brightness(${lit}%)`;
+    symbol.style('filter',style);
+}
+
 function color_two(isDark=false,dark='hsl(0,0%,0%)', light='hsl(0,0%,100%)'){
     return (isDark ? dark : light);
 }
@@ -90,9 +102,7 @@ function color_picker(x,y,matrix,isDark) {
     }
     if(isDark){
         const chosenColor =  $('#qrCoder__inputs__color_dark').val();
-        const noiseLevel = $('#qrCoder__inputs__color_dark__noise').val()/1000;
-        const noisycolor = addNoiseToColor(chosenColor, noiseLevel);
-        return noisycolor;
+        return chosenColor;
     }
     else return $('#qrCoder__inputs__color_light').val();
     return 'white'; //this line should never execute.
@@ -151,9 +161,11 @@ function fillWithSameSymbol(moduleSize,svg,matrix,symbolfunction,colorFunction){
             moddy.node().classList.add('qr_code__module');
             
             if(matrix[y][x]){
+                const noiseLevel = $('#qrCoder__inputs__color_dark__noise').val()/1000;
                 const symbol = symbolfunction(x,y,matrix,matrix[y][x])
                 const color = colorFunction(x,y,matrix,matrix[y][x]);
                 symbol.attr('fill', color);
+                addNoiseToSymbol(symbol,noiseLevel);
                 moddy.append(()=>symbol.node());
             }
             
