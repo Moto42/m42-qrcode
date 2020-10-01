@@ -124,8 +124,11 @@ function addNoiseToSymbol(symbol, noiseLevel){
     const sat = 100 + plusminus(75,noiseLevel);
     const lit = 100 + plusminus(75,noiseLevel);
     const hue = plusminus(90,noiseLevel);
-    const style = `hue-rotate(${hue}deg) saturate(${sat}%) brightness(${lit}%)`;
-    symbol.style('filter',style);
+    const style = [];
+    if(hue !=   0) style.push(`hue-rotate(${hue}deg)`);
+    if(sat != 100) style.push(`saturate(${sat}%)`);
+    if(lit != 100) style.push(`brightness(${lit}%)`);
+    if(style.length > 0) symbol.style('filter',style.join(' '));
 }
 
 function color_two(isDark=false,dark='hsl(0,0%,0%)', light='hsl(0,0%,100%)'){
