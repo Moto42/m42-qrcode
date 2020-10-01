@@ -1,4 +1,16 @@
 
+/** runs callback for each module in qr code.
+ * callback is given (x,y,isDark);
+ */
+function codeForEach(code, callback) {
+    const limit = code.getModuleCount();
+    for(let y=0; y<limit; y++){
+        for(let x=0; x<limit; x++){
+            const isDark = code.isDark(y,x);
+            callback(x,y,isDark,code);
+        }
+    }
+} 
 
 function qrcodeToMatrix(code) {
     const width = code.getModuleCount();
@@ -115,7 +127,7 @@ function addNoiseToSymbol(symbol, noiseLevel){
 function color_two(isDark=false,dark='hsl(0,0%,0%)', light='hsl(0,0%,100%)'){
     return (isDark ? dark : light);
 }
-function color_picker(x,y,matrix,isDark) {
+function color_picker(x,y,isDark) {
     if(x == -1) {
         color =  isDark ?  $('#qrCoder__inputs__color_dark').val() : $('#qrCoder__inputs__color_light').val();
         return color;
@@ -128,7 +140,7 @@ function color_picker(x,y,matrix,isDark) {
     return 'white'; //this line should never execute.
 }
 
-function symbol_rectangle(x,y,matrix,isDark){
+function symbol_rectangle(x,y,isDark){
     const r = d3.create('svg:rect')
         .attr('height', '100%')
         .attr('width', '100%')
@@ -136,21 +148,21 @@ function symbol_rectangle(x,y,matrix,isDark){
     r.node().classList.add((isDark?'qr_code__module--dark':'qr_code__module--light'));
     return r;
 }
-function symbol_triangle(x,y,matrix,isDark){
+function symbol_triangle(x,y,isDark){
     const tri = d3.create('svg:polygon')
         .attr('points', '50,0 6.7,100 93.3,100')
         .attr('fill-opacity', '1');
     tri.node().classList.add((isDark?'qr_code__module--dark':'qr_code__module--light'));
     return tri;
 }
-function symbol_diamond(x,y,matrix,isDark){
+function symbol_diamond(x,y,isDark){
     const tri = d3.create('svg:polygon')
         .attr('points', '50,0 0,50 50,100 100,50')
         .attr('fill-opacity', '1');
     tri.node().classList.add((isDark?'qr_code__module--dark':'qr_code__module--light'));
     return tri;
 }
-function symbol_emoji(x,y,matrix,isDark){
+function symbol_emoji(x,y,isDark){
     const emo = d3.create('svg:text')
         .attr('x',"-8")
         .attr('y',"80")
@@ -159,39 +171,39 @@ function symbol_emoji(x,y,matrix,isDark){
     return emo;   
 }
 
-function fillWithSameSymbol(moduleSize,svg,matrix,symbolfunction,colorFunction){
+const makeModule = (x,y,moduleSize) => {
+    const moddy = d3.create('svg:svg')
+        .attr('height', moduleSize)
+        .attr('width', moduleSize)
+        .attr('x', x*moduleSize)
+        .attr('y', y*moduleSize)
+        .attr( 'viewBox', '0 0 100 100');
+        moddy.node().classList.add('qr_code__module');
+    return moddy;
+}
+function fillWithSameSymbol(moduleSize,svg,code,symbolfunction,colorFunction){
+    
+    const noiseLevel = $('#qrCoder__inputs__color_dark__noise').val()/1000;
     const background = d3.create('svg:rect')
         .attr('height', '100%')
         .attr('width', '100%')
         .attr('fill' , '#00ff00')
-        // .attr('fill', 'white');
-        .attr('fill', colorFunction(-1,0,matrix,false));
-    background.node().classList.add('qr_code__module--light');
+        .attr('fill', colorFunction(-1,0,false));
+        background.node().classList.add('qr_code__module--light');
     svg.append(()=>background.node());
     
-    for(let y in matrix){
-        for(let x in matrix){
-            const moddy = d3.create('svg:svg')
-            .attr('height', moduleSize)
-            .attr('width', moduleSize)
-            .attr('x', x*moduleSize)
-            .attr('y', y*moduleSize)
-            .attr( 'viewBox', '0 0 100 100')
-            .attr('fill-opacity', '0');
-            moddy.node().classList.add('qr_code__module');
-            
-            if(matrix[y][x]){
-                const noiseLevel = $('#qrCoder__inputs__color_dark__noise').val()/1000;
-                const symbol = symbolfunction(x,y,matrix,matrix[y][x])
-                const color = colorFunction(x,y,matrix,matrix[y][x]);
-                symbol.attr('fill', color);
-                addNoiseToSymbol(symbol,noiseLevel);
-                moddy.append(()=>symbol.node());
-            }
-            
+    codeForEach(code,(x,y,isDark)=>{
+        if(isDark){
+            const moddy = makeModule(x,y,moduleSize);
+            const symbol = symbolfunction(x,y,isDark)
+            const color = colorFunction(x,y,isDark);
+            symbol.attr('fill', color);
+            addNoiseToSymbol(symbol,noiseLevel);
+            moddy.append(()=>symbol.node());
             svg.append(()=>moddy.node());
         }
-    }
+        
+    });
 }
 
 function makeCode(text, moduleSize=5){
@@ -205,8 +217,6 @@ function makeCode(text, moduleSize=5){
     .attr('width',moduleCount*moduleSize);
     svg.node().classList.add('qr_code');
     
-    const codeMatrix = qrcodeToMatrix(code);
-
     const symbolSelection = $('input[name="qrCoder__inputs__module_shape"]:checked').val();
     let symbolFunction;
     switch(symbolSelection) {
@@ -226,7 +236,7 @@ function makeCode(text, moduleSize=5){
             symbolFunction = symbol_rectangle;
             break;
     }
-    fillWithSameSymbol(moduleSize,svg,codeMatrix,symbolFunction,color_picker);
+    fillWithSameSymbol(moduleSize,svg,code,symbolFunction,color_picker);
     return svg.node();
 }
 
