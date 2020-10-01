@@ -153,18 +153,41 @@ function symbol_rectangle(x,y,isDark,moduleSize){
     return r;
 }
 function symbol_triangle(x,y,isDark,moduleSize){
+    x *= moduleSize;
+    y *= moduleSize;
+    const tx = x+(moduleSize*.5);
+    const ty = y+(moduleSize*0);
+    const rx = x+(moduleSize*.067);
+    const ry = y+(moduleSize*1);
+    const lx = x+(moduleSize*.933);
+    const ly = y+(moduleSize*1);
+    const points = `${tx},${ty} ${rx},${ry} ${lx},${ly}`
     const tri = d3.create('svg:polygon')
-        .attr('points', '50,0 6.7,100 93.3,100')
+        .attr('points', points)
         .attr('fill-opacity', '1');
-    tri.node().classList.add((isDark?'qr_code__module--dark':'qr_code__module--light'));
+    const colorClass = isDark?'qr_code__module--dark':'qr_code__module--light';
+    tri.classed(colorClass, true);
     return tri;
 }
 function symbol_diamond(x,y,isDark,moduleSize){
-    const tri = d3.create('svg:polygon')
-        .attr('points', '50,0 0,50 50,100 100,50')
+    
+    x *= moduleSize;
+    y *= moduleSize;
+    const tx = x+(moduleSize*.5);
+    const ty = y+(moduleSize*0);
+    const rx = x+(moduleSize*0);
+    const ry = y+(moduleSize*.5);
+    const bx = x+(moduleSize*.5);
+    const by = y+(moduleSize*1);
+    const lx = x+(moduleSize*1);
+    const ly = y+(moduleSize*.5);
+    const points = `${tx},${ty} ${rx},${ry} ${bx},${by} ${lx},${ly}`;
+    const dia = d3.create('svg:polygon')
+        .attr('points', points)
         .attr('fill-opacity', '1');
-    tri.node().classList.add((isDark?'qr_code__module--dark':'qr_code__module--light'));
-    return tri;
+    const colorClass = isDark?'qr_code__module--dark':'qr_code__module--light';
+    dia.classed(colorClass, true);
+    return dia;
 }
 function symbol_emoji(x,y,isDark){
     const emo = d3.create('svg:text')
