@@ -31,6 +31,9 @@ function rangeClamp(number, min, max) {
 }
 
 function svgToDataUri(svg){
+    svg = svg.cloneNode(true);
+    svg.removeAttribute('class');
+    svg.querySelectorAll('*').forEach(n =>n.removeAttribute('class'));
     let source = new XMLSerializer().serializeToString(svg);
     source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
     const url = "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(source);
@@ -116,6 +119,7 @@ function plusminus(num,noiseLevel=1){
     return ((num*2*Math.random())-num)*noiseLevel;
 }
 
+//todo filter out 'do nothing' filters
 function addNoiseToSymbol(symbol, noiseLevel){
     const sat = 100 + plusminus(75,noiseLevel);
     const lit = 100 + plusminus(75,noiseLevel);
