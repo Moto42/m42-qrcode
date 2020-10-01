@@ -140,22 +140,26 @@ function color_picker(x,y,isDark) {
     return 'white'; //this line should never execute.
 }
 
-function symbol_rectangle(x,y,isDark){
+function symbol_rectangle(x,y,isDark,moduleSize){
+    x *= moduleSize;
+    y *= moduleSize;
     const r = d3.create('svg:rect')
-        .attr('height', '100%')
-        .attr('width', '100%')
-        .attr('fill-opacity', '1');
-    r.node().classList.add((isDark?'qr_code__module--dark':'qr_code__module--light'));
+        .attr('height', moduleSize)
+        .attr('width', moduleSize)
+        .attr('x', x)
+        .attr('y', y);
+    const colorClass = isDark?'qr_code__module--dark':'qr_code__module--light';
+    r.classed(colorClass, true);
     return r;
 }
-function symbol_triangle(x,y,isDark){
+function symbol_triangle(x,y,isDark,moduleSize){
     const tri = d3.create('svg:polygon')
         .attr('points', '50,0 6.7,100 93.3,100')
         .attr('fill-opacity', '1');
     tri.node().classList.add((isDark?'qr_code__module--dark':'qr_code__module--light'));
     return tri;
 }
-function symbol_diamond(x,y,isDark){
+function symbol_diamond(x,y,isDark,moduleSize){
     const tri = d3.create('svg:polygon')
         .attr('points', '50,0 0,50 50,100 100,50')
         .attr('fill-opacity', '1');
@@ -194,13 +198,12 @@ function fillWithSameSymbol(moduleSize,svg,code,symbolfunction,colorFunction){
     
     codeForEach(code,(x,y,isDark)=>{
         if(isDark){
-            const moddy = makeModule(x,y,moduleSize);
-            const symbol = symbolfunction(x,y,isDark)
+            const symbol = symbolfunction(x,y,isDark,moduleSize);
+            symbol.classed('qr_code__module', true);
             const color = colorFunction(x,y,isDark);
             symbol.attr('fill', color);
             addNoiseToSymbol(symbol,noiseLevel);
-            moddy.append(()=>symbol.node());
-            svg.append(()=>moddy.node());
+            svg.append(()=>symbol.node());
         }
         
     });
