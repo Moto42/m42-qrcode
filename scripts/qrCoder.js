@@ -30,10 +30,34 @@ function rangeClamp(number, min, max) {
     return number;
 }
 
+function getValue(str,remove=null){
+    const value = str.match(/\(([^)]+)\)/)[1];
+    return remove ? value.replace(remove,'') : value;
+}
+
 function svgToDataUri(svg){
     svg = svg.cloneNode(true);
     svg.removeAttribute('class');
-    svg.querySelectorAll('*').forEach(n =>n.removeAttribute('class'));
+    svg.querySelectorAll('*').forEach(n =>{
+        n.removeAttribute('class');
+        if(n.hasAttribute('fill') && n.hasAttribute('style')) {
+            const color = d3.hsl(n.getAttribute('fill'));
+            const filters = n.style.filter.split(' ');
+            for(let filter of filters){
+                if(/^hue-rotate/.test(filter)){
+                    color.h = (Number(color.h) + Number(getValue(filter,'deg'))).toFixed(1);
+                }
+                if(/^saturate/.test(filter)){
+                    color.s = Number((Number(color.s) * (Number(getValue(filter,'%'))/100)).toFixed(2));
+                }
+                if(/^brightness/.test(filter)){
+                    color.l = Number((Number(color.l) * (Number(getValue(filter,'%'))/100)).toFixed(2));
+                }
+            }
+            n.setAttribute('fill', color.hex());
+            n.removeAttribute('style');
+        }
+    });
     let source = new XMLSerializer().serializeToString(svg);
     source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
     const url = "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(source);
