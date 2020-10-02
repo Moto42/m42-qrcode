@@ -139,11 +139,6 @@ function addNoiseToColor(color,noiseLevel){
     return hsl.hex();
 }
 
-function plusminus(num,noiseLevel=1){
-    return ((num*2*Math.random())-num)*noiseLevel;
-}
-
-//todo filter out 'do nothing' filters
 function addNoiseToSymbol(symbol, noiseLevel){
     const sat = 100 + plusminus(75,noiseLevel);
     const lit = 100 + plusminus(75,noiseLevel);
@@ -153,6 +148,10 @@ function addNoiseToSymbol(symbol, noiseLevel){
     if(sat != 100) style.push(`saturate(${sat}%)`);
     if(lit != 100) style.push(`brightness(${lit}%)`);
     if(style.length > 0) symbol.style('filter',style.join(' '));
+}
+
+function plusminus(num,noiseLevel=1){
+    return ((num*2*Math.random())-num)*noiseLevel;
 }
 
 function color_two(isDark=false,dark='hsl(0,0%,0%)', light='hsl(0,0%,100%)'){
@@ -255,8 +254,8 @@ function fillWithSameSymbol(moduleSize,svg,code,symbolfunction,colorFunction){
             const symbol = symbolfunction(x,y,isDark,moduleSize);
             symbol.classed('qr_code__module', true);
             const color = colorFunction(x,y,isDark);
-            symbol.attr('fill', color);
-            addNoiseToSymbol(symbol,noiseLevel);
+            const noisycolor = addNoiseToColor(color, noiseLevel);
+            symbol.attr('fill', noisycolor);
             svg.append(()=>symbol.node());
         }
         
